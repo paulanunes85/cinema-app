@@ -20,7 +20,45 @@ export class UsersService {
     avatarUrl: string | null;
     authProvider: AuthProvider;
   }) {
-    return this.prisma.user.create({ data });
+    return this.prisma.user.create({
+      data: { ...data, emailVerified: data.authProvider !== AuthProvider.EMAIL },
+    });
+  }
+
+  async createEmailUser(data: {
+    email: string;
+    displayName: string;
+    passwordHash: string;
+    verifyToken: string;
+    verifyTokenExp: Date;
+  }) {
+    return this.prisma.user.create({
+      data: {
+        email: data.email,
+        displayName: data.displayName,
+        passwordHash: data.passwordHash,
+        authProvider: AuthProvider.EMAIL,
+        emailVerified: false,
+        verifyToken: data.verifyToken,
+        verifyTokenExp: data.verifyTokenExp,
+      },
+    });
+  }
+
+  async findByVerifyToken(token: string) {
+    return this.prisma.user.findUnique({ where: { verifyToken: token } });
+  }
+
+  async markEmailVerified(userId: string) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        emailVerified: true,
+        verifyToken: null,
+        verifyTokenExp: null,
+        isOnboarded: true,
+      },
+    });
   }
 
   async completeOnboarding(

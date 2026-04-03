@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/hooks/useAuth';
 import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
+import { VerifyEmailPage } from '@/pages/auth/VerifyEmailPage';
 import { AuthCallbackPage } from '@/pages/auth/AuthCallbackPage';
 import { OnboardingPage } from '@/pages/auth/OnboardingPage';
 import { ProjectsListPage } from '@/pages/projects/ProjectsListPage';
@@ -35,6 +37,8 @@ export function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/auth/verify" element={<VerifyEmailPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route

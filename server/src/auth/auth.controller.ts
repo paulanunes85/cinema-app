@@ -6,18 +6,46 @@ import {
   Res,
   UseGuards,
   Body,
+  Query,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
+import { RegisterDto, LoginDto } from './dto/auth.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  // ─── Email Registration ───
+
+  @Public()
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
+  }
+
+  // ─── Email Verification ───
+
+  @Public()
+  @Get('verify')
+  async verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
+  }
+
+  // ─── Email Login ───
+
+  @Public()
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  login(@Body() dto: LoginDto) {
+    return this.authService.loginWithEmail(dto);
+  }
 
   // ─── Google OAuth ───
 

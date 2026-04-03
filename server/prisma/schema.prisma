@@ -15,6 +15,7 @@ datasource db {
 enum AuthProvider {
   GOOGLE
   APPLE
+  EMAIL
 }
 
 enum ProjectStatus {
@@ -45,14 +46,18 @@ enum NotificationType {
 // ─── User ───
 
 model User {
-  id           String       @id @default(uuid())
-  email        String       @unique
-  displayName  String?
-  avatarUrl    String?
-  authProvider AuthProvider
-  isOnboarded  Boolean      @default(false)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id             String       @id @default(uuid())
+  email          String       @unique
+  displayName    String?
+  avatarUrl      String?
+  authProvider   AuthProvider
+  passwordHash   String?
+  emailVerified  Boolean      @default(false)
+  verifyToken    String?      @unique
+  verifyTokenExp DateTime?
+  isOnboarded    Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   memberships            ProjectMember[]
   createdProjects        Project[]              @relation("ProjectCreator")

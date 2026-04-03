@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { PrismaModule } from './common/prisma/prisma.module';
+import { EmailModule } from './common/email/email.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
@@ -20,6 +21,7 @@ import { RealtimeModule } from './realtime/realtime.module';
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
     PrismaModule,
+    EmailModule,
     HealthModule,
     AuthModule,
     UsersModule,
