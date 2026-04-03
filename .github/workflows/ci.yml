@@ -69,3 +69,6 @@ jobs:
 
       - name: Build server Docker image
         run: docker build -f Dockerfile.server -t cinema-app-server:latest .
+
+      - name: Build web Docker image
+        run: docker build -f Dockerfile.web -t cinema-app-web:latest .
