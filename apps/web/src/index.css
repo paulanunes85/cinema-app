@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens — Spec §15.2 ─── */
+@theme {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f7f7f9;
+  --color-primary: #4a6cf7;
+  --color-primary-hover: #3b5de8;
+  --color-in-progress: #f2c94c;
+  --color-in-progress-bg: #fdf8e8;
+  --color-completed: #6fcf97;
+  --color-completed-bg: #f0f9f4;
+  --color-comments: #bdb2ff;
+  --color-comments-bg: #f5f3ff;
+  --color-danger: #ef4444;
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-focus: #4a6cf7;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
+
+/* ─── Base ─── */
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Focus ring utility ─── */
+.focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,36 @@
+/* Production Bible — Global Styles */
+/* Design tokens from Spec §15.2 */
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f9;
+  --color-primary: #4a6cf7;
+  --color-in-progress: #f2c94c;
+  --color-completed: #6fcf97;
+  --color-comments: #bdb2ff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "cinema-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production Bible App — Collaborative audiovisual pre-production platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "server"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "clean": "turbo clean"
+  },
+  "keywords": [
+    "audiovisual",
+    "pre-production",
+    "collaboration",
+    "react",
+    "react-native"
+  ],
+  "author": "Sofia Silva",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.2.2",
+    "turbo": "^2.9.3",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "@esbuild/darwin-arm64": "^0.27.7",
+    "@rollup/rollup-darwin-arm64": "^4.60.1"
+  }
+}
