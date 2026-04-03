@@ -29,6 +29,39 @@ services:
       timeout: 5s
       retries: 5
 
+  # ─── App services (for production-like local testing) ───
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: cinema-app-server
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/cinema_app
+      JWT_SECRET: change-me-in-production
+      JWT_REFRESH_SECRET: change-me-refresh-in-production
+      CORS_ORIGIN: http://localhost
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - full
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: cinema-app-web
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    profiles:
+      - full
+
 volumes:
   postgres_data:
   redis_data:

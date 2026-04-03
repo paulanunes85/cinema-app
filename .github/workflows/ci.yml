@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cinema_app_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cinema_app_test
+      JWT_SECRET: ci-test-secret
+      JWT_REFRESH_SECRET: ci-test-refresh-secret
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build shared package
+        run: npm run build -w @cinema-app/shared
+
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
+
+      - name: Run migrations
+        run: cd server && npx prisma migrate deploy
+
+      - name: Build server
+        run: cd server && rm -f tsconfig.tsbuildinfo && npx nest build
+
+      - name: Run server tests
+        run: cd server && npx vitest run
+
+      - name: Build web
+        run: cd apps/web && npx vite build
+
+  build-docker:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build server Docker image
+        run: docker build -f Dockerfile.server -t cinema-app-server:latest .
